@@ -1,0 +1,27 @@
+import re
+
+resume = """
+Name: Haritha C
+Email: haritha123@gmail.com
+Mobile: 9876543210
+Skills: Python, Java, SQL, Machine Learning
+Experience: 3 years
+"""
+
+name = re.search(r"Name:\s*(.*)", resume)
+email = re.findall(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", resume)
+mobile = re.findall(r"\b[6-9]\d{9}\b", resume)
+skills = re.findall(r"Python|Java|SQL|Machine Learning|NLP", resume, re.I)
+experience = re.search(r"(\d+)\s+years?", resume)
+
+print("Candidate Summary")
+print("Name:", name.group(1))
+print("Email:", email)
+print("Mobile:", mobile)
+print("Skills:", skills)
+print("Experience:", experience.group(1), "years")
+
+if int(experience.group(1)) >= 2 and "Python" in [s.title() for s in skills]:
+    print("Eligible for Shortlisting")
+else:
+    print("Not Eligible")
