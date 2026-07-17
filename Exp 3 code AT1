@@ -1,0 +1,26 @@
+import re
+
+reg = input("Register Number: ")
+email = input("Institutional Email: ")
+course = input("Course Code: ")
+semester = input("Semester: ")
+mobile = input("Mobile Number: ")
+
+reg_ok = bool(re.fullmatch(r"\d{2}[A-Z]{3}\d{4}", reg))
+email_ok = bool(re.fullmatch(r"[a-zA-Z0-9._%+-]+@saveetha\.com", email))
+course_ok = bool(re.fullmatch(r"[A-Z]{3}\d{3}", course))
+semester_ok = bool(re.fullmatch(r"[1-8]", semester))
+mobile_ok = bool(re.fullmatch(r"[6-9]\d{9}", mobile))
+
+print("\nValidation Results")
+print("Register Number:", "Valid" if reg_ok else "Invalid")
+print("Email:", "Valid" if email_ok else "Invalid")
+print("Course Code:", "Valid" if course_ok else "Invalid")
+print("Semester:", "Valid" if semester_ok else "Invalid")
+print("Mobile:", "Valid" if mobile_ok else "Invalid")
+
+if reg_ok and email_ok and course_ok and semester_ok and mobile_ok:
+    print("\nRegistration Successful")
+else:
+    print("\nRegistration Failed")
+
