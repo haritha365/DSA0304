@@ -1,33 +1,12 @@
-string = input("Enter a string (a,b): ")
+s = input("Enter string: ")
 
 state = "q0"
 
-print("\nTransition Path:")
-print(state, end="")
-
-for ch in string:
-
+for ch in s:
     if state == "q0":
-        if ch == "a":
-            state = "q1"
-        else:
-            state = "q0"
-
+        state = "q1" if ch == "a" else "q0"
     elif state == "q1":
-        if ch == "a":
-            state = "q1"
-        else:
-            state = "q2"
-
-    elif state == "q2":
-        if ch == "a":
-            state = "q1"
-        else:
-            state = "q0"
-
-    print(" ->", state, end="")
-
-print()
+        state = "q2" if ch == "b" else "q1"
 
 if state == "q2":
     print("Accepted")
