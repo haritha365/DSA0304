@@ -1,0 +1,36 @@
+# Initial tagging (default rule)
+sentence = "Students are studying happily"
+
+words = sentence.split()
+
+# Initial Tags
+tags = []
+
+for word in words:
+    if word.endswith("ing"):
+        tags.append("NN")      # Initially tagged as Noun
+    elif word.endswith("ly"):
+        tags.append("JJ")      # Initially tagged as Adjective
+    else:
+        tags.append("NN")
+
+print("Initial Tags:")
+for w, t in zip(words, tags):
+    print(f"{w:12} -> {t}")
+
+# -----------------------------
+# Transformation Rules
+# Rule 1: If a word ends with 'ing', change NN -> VBG
+# Rule 2: If a word ends with 'ly', change JJ -> RB
+# -----------------------------
+
+for i in range(len(words)):
+    if words[i].endswith("ing") and tags[i] == "NN":
+        tags[i] = "VBG"
+
+    if words[i].endswith("ly") and tags[i] == "JJ":
+        tags[i] = "RB"
+
+print("\nAfter Applying Transformation Rules:")
+for w, t in zip(words, tags):
+    print(f"{w:12} -> {t}")
