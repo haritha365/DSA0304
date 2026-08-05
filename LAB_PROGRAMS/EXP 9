@@ -1,0 +1,38 @@
+import nltk
+from nltk.tag import RegexpTagger
+
+# Define grammar rules
+patterns = [
+    (r'.*ing$', 'VBG'),      # Words ending with ing -> Verb (Gerund)
+    (r'.*ed$', 'VBD'),       # Words ending with ed -> Verb (Past)
+    (r'.*es$', 'VBZ'),       # Words ending with es -> Verb
+    (r'.*ould$', 'MD'),      # Modal verbs
+    (r'.*\'s$', 'NN$'),      # Possessive noun
+    (r'.*s$', 'NNS'),        # Plural noun
+    (r'.*ly$', 'RB'),        # Adverb
+    (r'.*able$', 'JJ'),      # Adjective
+    (r'.*ous$', 'JJ'),       # Adjective
+    (r'.*ion$', 'NN'),       # Noun
+    (r'.*ment$', 'NN'),      # Noun
+    (r'.*ness$', 'NN'),      # Noun
+    (r'.*$', 'NN')           # Default: Noun
+]
+
+# Create RegexpTagger
+tagger = RegexpTagger(patterns)
+
+# Sample sentence
+sentence = "Students are studying happily in the classroom"
+
+# Tokenize
+words = sentence.split()
+
+# Tag words
+tagged = tagger.tag(words)
+
+print("Sentence:")
+print(sentence)
+
+print("\nPOS Tags:")
+for word, tag in tagged:
+    print(f"{word:12} -> {tag}")
