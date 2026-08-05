@@ -1,0 +1,28 @@
+import nltk
+from nltk.util import bigrams
+from collections import defaultdict
+import random
+
+nltk.download('punkt')
+
+text = "Natural language processing is very interesting and language processing is useful."
+
+words = nltk.word_tokenize(text)
+
+model = defaultdict(list)
+
+for w1, w2 in bigrams(words):
+    model[w1].append(w2)
+
+word = random.choice(words)
+result = [word]
+
+for i in range(10):
+    if word in model:
+        word = random.choice(model[word])
+        result.append(word)
+    else:
+        break
+
+print("Generated Text:")
+print(" ".join(result))
