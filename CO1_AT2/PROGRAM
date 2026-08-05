@@ -1,0 +1,19 @@
+from nltk.stem import PorterStemmer
+
+# Create Porter Stemmer object
+ps = PorterStemmer()
+
+# Input text
+text = "Students are playing happily and studying computer science."
+
+# Split sentence into words
+words = text.split()   # No punkt required
+
+# Print original words
+print("Original Words:")
+print(words)
+
+# Print stemmed words
+print("\nStemmed Words:")
+for word in words:
+    print(word, "->", ps.stem(word))
