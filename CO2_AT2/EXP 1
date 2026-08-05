@@ -1,0 +1,41 @@
+# Morphological Processing System
+
+words = ["analyzing", "analysis", "analytical"]
+
+def morphological_analysis(word):
+
+    result = {}
+
+    if word.endswith("ing"):
+        result["root"] = "analyze"
+        result["affix"] = "-ing"
+        result["type"] = "Inflectional"
+        
+    elif word.endswith("sis"):
+        result["root"] = "analyze"
+        result["affix"] = "-sis"
+        result["type"] = "Derivational"
+
+    elif word.endswith("ical"):
+        result["root"] = "analyze"
+        result["affix"] = "-ical"
+        result["type"] = "Derivational"
+
+    result["normalized"] = "analyze"
+
+    return result
+
+
+print("Morphological Report")
+print("-"*70)
+
+for word in words:
+    data = morphological_analysis(word)
+
+    print("Word :", word)
+    print("Root :", data["root"])
+    print("Affix :", data["affix"])
+    print("Transformation :", data["type"])
+    print("Normalized Form :", data["normalized"])
+    print()
+
