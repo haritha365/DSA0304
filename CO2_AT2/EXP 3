@@ -1,0 +1,40 @@
+words=["govern","government","governance"]
+
+
+def normalize(word):
+
+    if word=="government":
+        return {
+        "root":"govern",
+        "affix":"-ment",
+        "level":"Level 1",
+        "normalized":"govern"
+        }
+
+    elif word=="governance":
+        return {
+        "root":"govern",
+        "affix":"-ance",
+        "level":"Level 1",
+        "normalized":"govern"
+        }
+
+    else:
+        return {
+        "root":"govern",
+        "affix":"None",
+        "level":"Level 0",
+        "normalized":"govern"
+        }
+
+
+
+for w in words:
+
+    r=normalize(w)
+
+    print("\nWord:",w)
+    print("Root:",r["root"])
+    print("Affix:",r["affix"])
+    print("Derivation:",r["level"])
+    print("Normalized:",r["normalized"])
