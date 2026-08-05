@@ -1,0 +1,61 @@
+# Morphological Parsing and Normalization System
+
+words = ["activate", "activation", "reactivation"]
+
+
+def morphological_parser(word):
+
+    prefix = ""
+    suffix = ""
+    root = word
+    sequence = []
+    word_class = ""
+
+    # Detect prefix
+    if word.startswith("re"):
+        prefix = "re-"
+        root = word[2:]
+        sequence.append("Added prefix re- (again/repeat action)")
+
+    # Detect suffix patterns
+    if root.endswith("ation"):
+        suffix = "-ation"
+        root = root[:-5]
+        word_class = "Noun"
+        sequence.append("Added suffix -ation (verb to noun)")
+        
+    elif root.endswith("ivate"):
+        suffix = "-ivate"
+        root = root[:-5]
+        word_class = "Verb"
+        sequence.append("Added suffix -ivate (root to verb)")
+        
+    else:
+        word_class = "Root"
+
+    if root == "act":
+        normalized = "act"
+    else:
+        normalized = root
+
+    return {
+        "Original Word": word,
+        "Prefix": prefix if prefix else "None",
+        "Root": root,
+        "Suffix": suffix if suffix else "None",
+        "Derivational Sequence": " → ".join(sequence),
+        "Word Class": word_class,
+        "Normalized Base Form": normalized,
+        "Parsed Representation": 
+            f"{prefix}+{root}+{suffix}"
+    }
+
+
+for word in words:
+    result = morphological_parser(word)
+
+    print("\nMorphological Report")
+    print("-"*40)
+
+    for key, value in result.items():
+        print(key, ":", value)
