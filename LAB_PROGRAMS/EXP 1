@@ -1,0 +1,20 @@
+import re
+
+text = "My phone number is 9876543210 and email is abc@gmail.com"
+
+# Search for a phone number
+phone = re.search(r"\d{10}", text)
+
+if phone:
+    print("Phone Number Found:", phone.group())
+
+# Find email
+email = re.search(r"\S+@\S+", text)
+
+if email:
+    print("Email Found:", email.group())
+
+# Find all words starting with 'a'
+words = re.findall(r"\ba\w*", text)
+
+print("Words starting with 'a':", words)
