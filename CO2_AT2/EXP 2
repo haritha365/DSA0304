@@ -1,0 +1,47 @@
+words = [
+    "disagree",
+    "agreement",
+    "agreeable"
+]
+
+
+def morphological_parser(word):
+
+    result={}
+
+    if word.startswith("dis"):
+        result["prefix"]="dis-"
+        result["root"]="agree"
+        result["suffix"]="None"
+        result["meaning"]="Opposite of agree"
+
+    elif word.endswith("ment"):
+        result["prefix"]="None"
+        result["root"]="agree"
+        result["suffix"]="-ment"
+        result["meaning"]="State or process of agreeing"
+
+    elif word.endswith("able"):
+        result["prefix"]="None"
+        result["root"]="agree"
+        result["suffix"]="-able"
+        result["meaning"]="Capable of being agreed"
+
+    result["type"]="Derivational"
+    result["normalized"]="agree"
+
+    return result
+
+
+
+for word in words:
+
+    data=morphological_parser(word)
+
+    print("\nWord:",word)
+    print("Prefix:",data["prefix"])
+    print("Root:",data["root"])
+    print("Suffix:",data["suffix"])
+    print("Type:",data["type"])
+    print("Meaning:",data["meaning"])
+    print("Normalized:",data["normalized"])
