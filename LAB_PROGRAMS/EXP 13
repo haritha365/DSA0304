@@ -1,0 +1,19 @@
+import nltk
+from nltk import CFG
+from nltk.parse import ChartParser
+
+grammar = CFG.fromstring("""
+S -> NP VP
+NP -> Det N
+VP -> V NP
+Det -> 'the'
+N -> 'student' | 'teacher'
+V -> 'likes'
+""")
+
+parser = ChartParser(grammar)
+
+sentence = "the student likes the teacher".split()
+
+for tree in parser.parse(sentence):
+    tree.pretty_print()
