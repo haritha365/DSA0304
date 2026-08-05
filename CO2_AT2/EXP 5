@@ -1,0 +1,45 @@
+# Inflectional Morphology Normalization System
+
+words = ["create", "creates", "creating"]
+
+
+def normalize_word(word):
+
+    suffix = ""
+    category = ""
+    root = word
+
+    if word.endswith("ing"):
+        suffix = "-ing"
+        root = word[:-3]
+        category = "Present Participle (Continuous form)"
+
+    elif word.endswith("s"):
+        suffix = "-s"
+        root = word[:-1]
+        category = "Third Person Singular Present"
+
+    else:
+        category = "Base Form"
+
+    normalized = root
+
+    return {
+        "Original Word": word,
+        "Suffix": suffix if suffix else "None",
+        "Grammatical Category": category,
+        "Extracted Root": root,
+        "Normalized Base Form": normalized,
+        "Final Representation": f"{root}+{suffix}"
+    }
+
+
+for word in words:
+
+    result = normalize_word(word)
+
+    print("\nNormalization Report")
+    print("-"*40)
+
+    for key,value in result.items():
+        print(key,":",value)
