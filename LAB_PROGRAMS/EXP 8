@@ -1,0 +1,12 @@
+import random
+
+sentence = input("Enter a sentence: ")
+
+words = sentence.split()
+
+tags = ["NN", "VB", "JJ", "RB", "DT"]
+
+print("\nAssigned POS Tags:")
+
+for word in words:
+    print(word, ":", random.choice(tags))
