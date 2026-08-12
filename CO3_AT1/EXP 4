@@ -1,0 +1,188 @@
+from collections import Counter, defaultdict
+
+# -----------------------------------
+# Training data
+# -----------------------------------
+
+training_data = [
+    [("the", "DT"), ("student", "NN"), ("is", "VBZ"),
+     ("smart", "JJ")],
+
+    [("the", "DT"), ("student", "NN"), ("studies", "VBZ"),
+     ("programming", "NN")],
+
+    [("she", "PRP"), ("likes", "VBZ"),
+     ("computer", "NN"), ("science", "NN")],
+
+    [("he", "PRP"), ("plays", "VBZ"),
+     ("football", "NN")],
+
+    [("the", "DT"), ("teacher", "NN"),
+     ("teaches", "VBZ"), ("well", "RB")]
+]
+
+
+# -----------------------------------
+# Lexical dictionary
+# -----------------------------------
+
+lexicon = {
+    "the": "DT",
+    "a": "DT",
+    "an": "DT",
+
+    "student": "NN",
+    "teacher": "NN",
+    "computer": "NN",
+    "science": "NN",
+    "programming": "NN",
+    "football": "NN",
+
+    "is": "VBZ",
+    "are": "VBP",
+    "am": "VBP",
+    "likes": "VBZ",
+    "plays": "VBZ",
+    "studies": "VBZ",
+    "teaches": "VBZ",
+
+    "she": "PRP",
+    "he": "PRP",
+    "they": "PRP",
+
+    "smart": "JJ",
+    "good": "JJ",
+    "well": "RB",
+
+    "and": "CC",
+    "in": "IN",
+    "on": "IN"
+}
+
+
+# -----------------------------------
+# Rule-Based POS Tagger
+# -----------------------------------
+
+def rule_based(words):
+
+    tags = []
+
+    for word in words:
+        w = word.lower()
+
+        if w in lexicon:
+            tag = lexicon[w]
+
+        elif w.endswith("ly"):
+            tag = "RB"
+
+        elif w.endswith("ing"):
+            tag = "VBG"
+
+        elif w.endswith("ed"):
+            tag = "VBD"
+
+        elif w.endswith("ous") or w.endswith("ful"):
+            tag = "JJ"
+
+        else:
+            tag = "NN"
+
+        tags.append((word, tag))
+
+    return tags
+
+
+# -----------------------------------
+# Stochastic POS Tagger
+# -----------------------------------
+
+emission = defaultdict(Counter)
+transition = defaultdict(Counter)
+
+for sentence in training_data:
+
+    previous = "<START>"
+
+    for word, tag in sentence:
+
+        emission[word][tag] += 1
+        transition[previous][tag] += 1
+
+        previous = tag
+
+
+def stochastic(words):
+
+    result = []
+
+    for word in words:
+
+        candidates = emission[word]
+
+        if candidates:
+            tag = candidates.most_common(1)[0][0]
+
+        else:
+            tag = rule_based([word])[0][1]
+
+        result.append((word, tag))
+
+    return result
+
+
+# -----------------------------------
+# Transformation-Based Tagger
+# -----------------------------------
+
+def transformation_based(words):
+
+    tagged = rule_based(words)
+
+    result = []
+
+    previous_tag = None
+
+    for word, tag in tagged:
+
+        w = word.lower()
+
+        # Transformation 1:
+        # after a pronoun, ambiguous word becomes verb
+        if previous_tag == "PRP" and tag == "NN":
+            tag = "VB"
+
+        # Transformation 2:
+        # -ly words are adverbs
+        if w.endswith("ly"):
+            tag = "RB"
+
+        # Transformation 3:
+        # -ing words are present participles
+        if w.endswith("ing"):
+            tag = "VBG"
+
+        result.append((word, tag))
+
+        previous_tag = tag
+
+    return result
+
+
+# -----------------------------------
+# Main program
+# -----------------------------------
+
+sentence = input("Enter an English sentence: ")
+
+words = sentence.split()
+
+print("\nRule-Based Tagging:")
+print(rule_based(words))
+
+print("\nStochastic Tagging:")
+print(stochastic(words))
+
+print("\nTransformation-Based Tagging:")
+print(transformation_based(words))
