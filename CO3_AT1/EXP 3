@@ -1,0 +1,137 @@
+from collections import Counter
+import math
+
+# Training corpus
+train = [
+    "the student studies computer science",
+    "the student likes programming",
+    "the teacher teaches computer science",
+    "the teacher likes programming",
+    "the computer is useful"
+]
+
+# Test corpus
+test = [
+    "the student studies programming",
+    "the teacher likes computer science"
+]
+
+# Tokenization
+train_sentences = [s.lower().split() for s in train]
+test_sentences = [s.lower().split() for s in test]
+
+# Counts
+unigram = Counter()
+bigram = Counter()
+trigram = Counter()
+
+for sentence in train_sentences:
+    words = ["<s>"] + sentence + ["</s>"]
+
+    unigram.update(words)
+
+    for i in range(len(words) - 1):
+        bigram[(words[i], words[i + 1])] += 1
+
+    for i in range(len(words) - 2):
+        trigram[(words[i], words[i + 1], words[i + 2])] += 1
+
+total = sum(unigram.values())
+
+
+# Probability functions
+def unigram_prob(word):
+    return unigram[word] / total
+
+
+def bigram_prob(w1, w2):
+    if unigram[w1] == 0:
+        return 0
+    return bigram[(w1, w2)] / unigram[w1]
+
+
+def trigram_prob(w1, w2, w3):
+    if bigram[(w1, w2)] == 0:
+        return 0
+    return trigram[(w1, w2, w3)] / bigram[(w1, w2)]
+
+
+# Laplace-smoothed probabilities
+V = len(unigram)
+
+
+def smooth_bigram(w1, w2):
+    return (bigram[(w1, w2)] + 1) / (unigram[w1] + V)
+
+
+def smooth_trigram(w1, w2, w3):
+    return (trigram[(w1, w2, w3)] + 1) / (bigram[(w1, w2)] + V)
+
+
+# Entropy calculation
+def calculate_entropy(model, smoothing=False):
+
+    log_sum = 0
+    count = 0
+
+    for sentence in test_sentences:
+
+        words = ["<s>"] + sentence + ["</s>"]
+
+        for i in range(1, len(words)):
+
+            if model == 1:
+                p = unigram_prob(words[i])
+
+            elif model == 2:
+                if smoothing:
+                    p = smooth_bigram(words[i - 1], words[i])
+                else:
+                    p = bigram_prob(words[i - 1], words[i])
+
+            else:
+                if i < 2:
+                    continue
+
+                if smoothing:
+                    p = smooth_trigram(
+                        words[i - 2],
+                        words[i - 1],
+                        words[i]
+                    )
+                else:
+                    p = trigram_prob(
+                        words[i - 2],
+                        words[i - 1],
+                        words[i]
+                    )
+
+            # Avoid log(0)
+            if p == 0:
+                return float("inf")
+
+            log_sum += math.log2(p)
+            count += 1
+
+    return -log_sum / count
+
+
+print("Entropy Results")
+print("----------------")
+
+print("Unigram Entropy:",
+      round(calculate_entropy(1), 4))
+
+print("Bigram Entropy:",
+      round(calculate_entropy(2), 4))
+
+print("Trigram Entropy:",
+      round(calculate_entropy(3), 4))
+
+print("\nSmoothed Models")
+
+print("Smoothed Bigram Entropy:",
+      round(calculate_entropy(2, True), 4))
+
+print("Smoothed Trigram Entropy:",
+      round(calculate_entropy(3, True), 4))
