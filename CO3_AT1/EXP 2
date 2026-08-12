@@ -1,0 +1,119 @@
+from collections import Counter
+
+corpus = """
+the student is intelligent
+the student is hardworking
+the student studies computer science
+the student likes programming
+the teacher is intelligent
+the teacher teaches computer science
+the teacher likes programming
+the computer is fast
+the computer is useful
+students study programming
+students study computer science
+"""
+
+sentences = [
+    ["<s>"] + s.lower().split() + ["</s>"]
+    for s in corpus.strip().split("\n")
+]
+
+unigram = Counter()
+bigram = Counter()
+trigram = Counter()
+
+for s in sentences:
+    unigram.update(s)
+
+    for i in range(len(s) - 1):
+        bigram[(s[i], s[i + 1])] += 1
+
+    for i in range(len(s) - 2):
+        trigram[(s[i], s[i + 1], s[i + 2])] += 1
+
+total = sum(unigram.values())
+
+
+def P1(word):
+    return unigram[word] / total
+
+
+def P2(w1, w2):
+    if unigram[w1] == 0:
+        return 0
+    return bigram[(w1, w2)] / unigram[w1]
+
+
+def P3(w1, w2, w3):
+    if bigram[(w1, w2)] == 0:
+        return 0
+    return trigram[(w1, w2, w3)] / bigram[(w1, w2)]
+
+
+# Backoff model
+def backoff(w1, w2, w3):
+    p = P3(w1, w2, w3)
+
+    if p > 0:
+        return p
+
+    p = P2(w2, w3)
+
+    if p > 0:
+        return p
+
+    return P1(w3)
+
+
+# Deleted interpolation
+def interpolation(w1, w2, w3):
+    lambda1 = 0.2
+    lambda2 = 0.3
+    lambda3 = 0.5
+
+    return (
+        lambda1 * P1(w3)
+        + lambda2 * P2(w2, w3)
+        + lambda3 * P3(w1, w2, w3)
+    )
+
+
+def predict(query):
+    words = query.lower().split()
+
+    if len(words) < 2:
+        print("Enter at least two words.")
+        return
+
+    w1 = words[-2]
+    w2 = words[-1]
+
+    candidates = []
+
+    for word in unigram:
+        unsmoothed = P3(w1, w2, word)
+        backoff_prob = backoff(w1, w2, word)
+        interpolation_prob = interpolation(w1, w2, word)
+
+        candidates.append(
+            (word, unsmoothed, backoff_prob, interpolation_prob)
+        )
+
+    print("\nTop predictions:\n")
+
+    print("UNSMOOTHED:")
+    for x in sorted(candidates, key=lambda x: x[1], reverse=True)[:5]:
+        print(x[0], "->", round(x[1], 4))
+
+    print("\nBACKOFF:")
+    for x in sorted(candidates, key=lambda x: x[2], reverse=True)[:5]:
+        print(x[0], "->", round(x[2], 4))
+
+    print("\nDELETED INTERPOLATION:")
+    for x in sorted(candidates, key=lambda x: x[3], reverse=True)[:5]:
+        print(x[0], "->", round(x[3], 4))
+
+
+query = input("Enter sentence/query: ")
+predict(query)
