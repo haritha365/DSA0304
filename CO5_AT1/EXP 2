@@ -1,0 +1,13 @@
+user = &quot;I have an important exam tomorrow but I&#39;m not able to concentrate.&quot;
+responses = [
+&quot;Take a short break and then focus on one topic at a time. You can feel confident by studying calmly and avoiding
+distractions.&quot;,
+&quot;Take a small break before you study again. Focus on important topics and stay confident about your exam.&quot;,
+&quot;Try taking a short break and return to your preparation with a clear mind. Focus on important topics and stay confident.&quot;
+]
+print(&quot;User:&quot;, user)
+print(&quot;\nPossible Responses:&quot;)
+for i, response in enumerate(responses, 1):
+print(i, &quot;.&quot;, response)
+print(&quot;\nBest Response:&quot;)
+print(responses[1])
