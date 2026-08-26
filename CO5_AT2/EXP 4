@@ -1,0 +1,40 @@
+# Language Generation using Semantic Representation
+
+semantic_input = {
+    "Action": "Buy",
+    "Agent": "Student",
+    "Object": "Book",
+    "Tense": "Past"
+}
+
+def language_generation(semantic):
+    # Step 1: Lexical Selection
+    agent = semantic["Agent"]
+    action = semantic["Action"]
+    obj = semantic["Object"]
+    tense = semantic["Tense"]
+
+    # Step 2: Select appropriate words
+    if action.lower() == "buy" and tense.lower() == "past":
+        verb = "bought"
+    else:
+        verb = action.lower()
+
+    # Step 3: Sentence Structuring
+    sentence = f"The {agent.lower()} {verb} a {obj.lower()}."
+
+    # Step 4: Surface Realization
+    sentence = sentence.capitalize()
+
+    return sentence
+
+
+# Generate sentence
+output = language_generation(semantic_input)
+
+print("Semantic Representation:")
+for key, value in semantic_input.items():
+    print(f"{key}: {value}")
+
+print("\nGenerated Sentence:")
+print(output)
