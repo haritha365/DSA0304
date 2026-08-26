@@ -1,0 +1,25 @@
+text = &quot;&quot;&quot;
+John and Mary went to the park.
+He brought a ball.
+She wanted to play with it.
+The dog chased him excitedly.
+Finally, they all went home.
+&quot;&quot;&quot;
+entities = [&quot;John&quot;, &quot;Mary&quot;, &quot;ball&quot;, &quot;dog&quot;]
+references = {
+&quot;He&quot;: &quot;John&quot;,
+&quot;She&quot;: &quot;Mary&quot;,
+&quot;it&quot;: &quot;ball&quot;,
+&quot;him&quot;: &quot;John&quot;,
+&quot;they&quot;: &quot;John, Mary, dog&quot;
+}
+
+print(&quot;Coreference Resolution:\n&quot;)
+for ref, antecedent in references.items():
+print(ref, &quot;-&gt;&quot;, antecedent)
+print(&quot;\nResolved Text:&quot;)
+print(&quot;John and Mary went to the park.&quot;)
+print(&quot;John brought a ball.&quot;)
+print(&quot;Mary wanted to play with the ball.&quot;)
+print(&quot;The dog chased John excitedly.&quot;)
+print(&quot;Finally, John, Mary and the dog went home.&quot;)
