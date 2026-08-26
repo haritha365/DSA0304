@@ -1,0 +1,22 @@
+sentence = &quot;The bank by the river flooded after the storm, but it was saved by quick action.&quot;
+print(&quot;Input:&quot;)
+print(sentence)
+# Word Sense Disambiguation
+context = &quot;river flooded after storm&quot;
+if &quot;river&quot; in context and &quot;flooded&quot; in context:
+sense = &quot;riverbank&quot;
+else:
+sense = &quot;financial bank&quot;
+print(&quot;\nWord Sense:&quot;)
+print(&quot;bank -&gt;&quot;, sense)
+
+# Predicate Logic
+print(&quot;\nPredicate Logic:&quot;)
+print(&quot;location(bank, river)&quot;)
+print(&quot;flood(bank)&quot;)
+print(&quot;after(flood, storm)&quot;)
+print(&quot;saved(bank, quick_action)&quot;)
+print(&quot;\nDiscourse Relation:&quot;)
+print(&quot;Contrast&quot;)
+print(&quot;\nParaphrase:&quot;)
+print(&quot;The riverbank flooded after the storm, but quick action saved it.&quot;)
