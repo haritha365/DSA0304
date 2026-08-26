@@ -1,0 +1,42 @@
+import re
+
+text = """The roads were flooded after heavy rainfall.
+Therefore, schools were closed for the day.
+Students attended classes online."""
+
+# Split text into sentences
+sentences = [s.strip() for s in text.split(".") if s.strip()]
+
+# Identify discourse relations using keywords and meaning
+relations = []
+
+# Sentence 1 -> Sentence 2
+if "therefore" in sentences[1].lower():
+    relations.append(("S1", "S2", "CAUSE-EFFECT"))
+
+# Sentence 2 -> Sentence 3
+if "schools were closed" in sentences[1].lower() and \
+   "attended classes online" in sentences[2].lower():
+    relations.append(("S2", "S3", "ELABORATION / RESULT"))
+
+# Display sentences
+print("Sentences:")
+for i, sentence in enumerate(sentences, 1):
+    print(f"S{i}: {sentence}")
+
+# Display relations
+print("\nDiscourse Relations:")
+for relation in relations:
+    print(f"{relation[0]} -> {relation[1]} : {relation[2]}")
+
+# Discourse structure representation
+print("\nDiscourse Structure:")
+print("S1: Roads were flooded due to heavy rainfall")
+print("       |")
+print("       | CAUSE")
+print("       v")
+print("S2: Schools were closed for the day")
+print("       |")
+print("       | RESULT / ELABORATION")
+print("       v")
+print("S3: Students attended classes online")
