@@ -1,0 +1,48 @@
+# Dialogue Act Identification
+
+conversation = [
+    ("User", "Can you book a train ticket for me?"),
+    ("Agent", "Sure, where would you like to travel?"),
+    ("User", "I want to go to Chennai."),
+    ("Agent", "Your ticket has been booked.")
+]
+
+def identify_dialogue_act(speaker, utterance):
+    text = utterance.lower()
+
+    # Request
+    if "can you" in text or "book" in text and "for me" in text:
+        return "Request"
+
+    # Question
+    elif "where" in text or "?" in text:
+        return "Question"
+
+    # Inform
+    elif "i want to" in text or "i would like" in text:
+        return "Inform"
+
+    # Confirmation
+    elif "sure" in text or "has been booked" in text:
+        return "Confirmation"
+
+    # Action
+    elif speaker == "Agent":
+        return "Action"
+
+    return "Unknown"
+
+
+print("Dialogue Act Classification:\n")
+
+acts = []
+
+for speaker, utterance in conversation:
+    act = identify_dialogue_act(speaker, utterance)
+    acts.append(act)
+
+    print(f"{speaker}: {utterance}")
+    print(f"Dialogue Act: {act}\n")
+
+print("Dialogue-Act Sequence:")
+print(" -> ".join(acts))
