@@ -1,0 +1,54 @@
+# Hybrid Machine Translation:
+# Interlingua Representation + Statistical Scoring
+
+source_sentence = "The boy is playing football."
+
+# Step 1: Source Sentence Analysis
+analysis = {
+    "Subject": "boy",
+    "Action": "play",
+    "Object": "football",
+    "Tense": "present",
+    "Aspect": "continuous"
+}
+
+# Step 2: Interlingua Representation
+interlingua = {
+    "AGENT": "BOY",
+    "ACTION": "PLAY",
+    "OBJECT": "FOOTBALL",
+    "TENSE": "PRESENT",
+    "ASPECT": "PROGRESSIVE"
+}
+
+print("SOURCE SENTENCE:")
+print(source_sentence)
+
+print("\n1. SOURCE ANALYSIS:")
+for key, value in analysis.items():
+    print(key, ":", value)
+
+print("\n2. INTERLINGUA REPRESENTATION:")
+print(interlingua)
+
+# Step 3: Candidate Tamil translations
+candidates = {
+    "சிறுவன் கால்பந்து விளையாடுகிறான்.": 0.95,
+    "சிறுவன் கால்பந்து விளையாடினான்.": 0.65,
+    "பையன் கால்பந்து விளையாடுகிறான்.": 0.88
+}
+
+print("\n3. CANDIDATE TRANSLATIONS:")
+for sentence, score in candidates.items():
+    print(sentence, "-> Score:", score)
+
+# Step 4: Statistical scoring
+best_translation = max(candidates, key=candidates.get)
+best_score = candidates[best_translation]
+
+print("\n4. STATISTICAL SCORING:")
+print("Highest Score:", best_score)
+
+# Step 5: Final Translation
+print("\n5. FINAL TRANSLATION:")
+print(best_translation)
