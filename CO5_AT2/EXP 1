@@ -1,0 +1,25 @@
+import re
+
+text = "Ravi met Arun at the library. He borrowed a book and later returned it."
+
+# Entities identified from the discourse
+entities = ["Ravi", "Arun", "library", "book"]
+
+# Pronoun resolution
+resolved_text = text
+
+# "He" -> Ravi
+resolved_text = re.sub(r"\bHe\b", "Ravi", resolved_text)
+
+# "it" -> book
+resolved_text = re.sub(r"\bit\b", "the book", resolved_text)
+
+print("Original Discourse:")
+print(text)
+
+print("\nReference Resolution:")
+print("He -> Ravi")
+print("it -> book")
+
+print("\nResolved Discourse:")
+print(resolved_text)
